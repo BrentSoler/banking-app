@@ -1,4 +1,4 @@
-## Initialize Project:
+## Initialize Project on clone:
 ```javascript
 npm install
 ```
