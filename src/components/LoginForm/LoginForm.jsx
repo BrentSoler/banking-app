@@ -34,7 +34,7 @@ const LoginForm = () => {
 			return;
 		}
 
-		if (user[0].activated !== true) {
+		if (user[0].activated !== "true") {
 			msg.set("Wait for Admin to activate your account");
 			return;
 		}
