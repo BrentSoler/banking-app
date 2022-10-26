@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useMsg from "../../utils/errorMsg";
 import useStorage from "../../utils/localStorage";
 
-const LoginForm = () => {
+const RegisterForm = () => {
 	const navigate = useNavigate();
 	const storage = useStorage();
 	const msg = useMsg();
@@ -12,6 +12,7 @@ const LoginForm = () => {
 	const [loginData, setLoginData] = useState({
 		username: "",
 		password: "",
+		confPassword: "",
 	});
 
 	function submitHandler(e) {
@@ -24,24 +25,24 @@ const LoginForm = () => {
 
 		const user = storage.filter("users", "name", loginData.username);
 
-		if (user.length <= 0) {
-			msg.set("User does not exists");
+		if (user.length > 0) {
+			msg.set("User already exists");
 			return;
 		}
 
-		if (user[0].password !== loginData.password) {
-			msg.set("Wrong Password");
+		if (loginData.password !== loginData.confPassword) {
+			msg.set("Password does not match");
 			return;
 		}
 
-		if (user[0].activated !== true && user[0].role !== "admin") {
-			msg.set("Wait for Admin to activate your account");
-			return;
-		}
+		storage.add("users", {
+			name: loginData.username,
+			password: loginData.password,
+			role: "user",
+			activated: false,
+		});
 
-		storage.set("loggedIn", user[0]);
-
-		navigate("/dashboard");
+		navigate("/");
 	}
 
 	return (
@@ -63,6 +64,14 @@ const LoginForm = () => {
 				value={loginData.password}
 				onChange={(e) => handleChange(e, setLoginData)}
 			/>
+			<h1>Confirm Password:</h1>
+			<input
+				type="password"
+				name="confPassword"
+				className="input input-bordered"
+				value={loginData.confPassword}
+				onChange={(e) => handleChange(e, setLoginData)}
+			/>
 			{msg.get()}
 			<button className="btn-primary mt-10 rounded-lg py-2 px-3 w-max self-end" type="submit">
 				Submit
@@ -71,4 +80,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;
