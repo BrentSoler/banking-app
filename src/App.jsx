@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainDashboard from "./pages/MainDashboard";
+import RegisterPage from "./pages/RegisterPage";
 import useStorage from "./utils/localStorage";
 import ProtectedRoute from "./utils/RouteProtection";
 
@@ -13,8 +14,8 @@ function App() {
 
 		if (!users) {
 			storage.set("users", [
-				{ name: "admin", password: "admin", role: "admin", activated: "true" },
-				{ name: "user", password: "user", role: "user", activated: "true" },
+				{ name: "admin", password: "admin", role: "admin", activated: true },
+				{ name: "user", password: "user", role: "user", activated: true },
 			]);
 		}
 	}, [storage]);
@@ -30,6 +31,7 @@ function App() {
 					element={<ProtectedRoute value="loggedIn" destination="/dashboard" isReverse={true} />}
 				>
 					<Route path="/" element={<LoginPage />} />
+					<Route path="/register" element={<RegisterPage />} />
 				</Route>
 
 				<Route element={<ProtectedRoute value="loggedIn" destination="/" isReverse={false} />}>
