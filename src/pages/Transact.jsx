@@ -1,11 +1,12 @@
 import Navbar from "../components/Dashboard/Navbar";
 
-const Dashboard = () => {
+const Transact = () => {
 	return (
 	<>
 	<Navbar />
+    <span>Transact</span>
 	</>
 	);
 };
 
-export default Dashboard;
+export default Transact;

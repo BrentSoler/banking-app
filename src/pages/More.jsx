@@ -1,11 +1,12 @@
 import Navbar from "../components/Dashboard/Navbar";
 
-const Dashboard = () => {
+const More = () => {
 	return (
 	<>
 	<Navbar />
+    <span>More</span>
 	</>
 	);
 };
 
-export default Dashboard;
+export default More;
