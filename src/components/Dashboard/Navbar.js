@@ -3,6 +3,7 @@ import './dashboard.css'
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { SidebarContent } from './SidebarContent';
+import { Link } from "react-router-dom";
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
@@ -25,10 +26,10 @@ function Navbar() {
                 {SidebarContent.map((data, index) => {
                     return (
                         <li key={index} className={data.className}>
-                            <a href={data.path}>
+                            <Link to={data.path}>
                                 {data.icon}
                                 <span>{data.name}</span>
-                            </a>
+                            </Link>
                         </li>
                     )
                 })}

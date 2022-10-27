@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainDashboard from "./pages/MainDashboard";
 import RegisterPage from "./pages/RegisterPage";
+import Transact from "./pages/Transact";
+import More from "./pages/More";
+import PayBills from "./pages/PayBills";
 import useStorage from "./utils/localStorage";
 import ProtectedRoute from "./utils/RouteProtection";
 
@@ -37,6 +40,9 @@ function App() {
 				<Route element={<ProtectedRoute value="loggedIn" destination="/" isReverse={false} />}>
 					<Route path="/dashboard" element={<MainDashboard />} />
 				</Route>
+				<Route path="/paybills" element={<PayBills />}/>
+				<Route path="/transact" element={<Transact />}/>
+				<Route path="/more" element={<More />}/>
 			</Routes>
 		</Router>
 	);
