@@ -1,4 +1,4 @@
-import Navbar from "../dashboard/Navbar";
+import Navbar from "../components/Dashboard/Navbar";
 
 const PayBills = () => {
 	return (
