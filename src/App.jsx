@@ -17,8 +17,23 @@ function App() {
 
 		if (!users) {
 			storage.set("users", [
-				{ name: "admin", password: "admin", role: "admin", activated: true, balance: "10,000" },
-				{ name: "user", password: "user", role: "user", activated: true, balance: "300,000" },
+				{
+					name: "admin",
+					password: "admin",
+					role: "admin",
+					activated: true,
+					accounts: [
+						{ name: "default", balance: 10000 },
+						{ name: "savings", balance: 10000 },
+					],
+				},
+				{
+					name: "user",
+					password: "user",
+					role: "user",
+					activated: true,
+					accounts: [{ name: "default", balance: 10000 }],
+				},
 			]);
 		}
 	}, [storage]);
