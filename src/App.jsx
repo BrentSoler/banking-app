@@ -17,8 +17,8 @@ function App() {
 
 		if (!users) {
 			storage.set("users", [
-				{ name: "admin", password: "admin", role: "admin", activated: true },
-				{ name: "user", password: "user", role: "user", activated: true },
+				{ name: "admin", password: "admin", role: "admin", activated: true, balance: "10,000" },
+				{ name: "user", password: "user", role: "user", activated: true, balance: "300,000" },
 			]);
 		}
 	}, [storage]);
@@ -39,10 +39,10 @@ function App() {
 
 				<Route element={<ProtectedRoute value="loggedIn" destination="/" isReverse={false} />}>
 					<Route path="/dashboard" element={<MainDashboard />} />
+					<Route path="/paybills" element={<PayBills />} />
+					<Route path="/transact" element={<Transact />} />
+					<Route path="/more" element={<More />} />
 				</Route>
-				<Route path="/paybills" element={<PayBills />}/>
-				<Route path="/transact" element={<Transact />}/>
-				<Route path="/more" element={<More />}/>
 			</Routes>
 		</Router>
 	);

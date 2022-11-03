@@ -9,6 +9,9 @@ export default function useStorage() {
 		add(key, value) {
 			localStorage.setItem(key, JSON.stringify([...JSON.parse(localStorage.getItem(key)), value]));
 		},
+		delete(key) {
+			localStorage.removeItem(key);
+		},
 		filter(key, search, value) {
 			const users = JSON.parse(localStorage.getItem(key));
 
