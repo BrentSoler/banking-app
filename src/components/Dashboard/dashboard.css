@@ -1,3 +1,6 @@
+
+/* Nav-bar ONLY */
+
 .navbar {
 	background-color: #444;
 	color: white;
@@ -58,5 +61,55 @@
 }
 
 .nav-menu ul li a span {
-	margin-left: 16px;
+    margin-left: 16px;
+}
+
+/* AccountList ONLY */
+.create_account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 120px;
+    border: 1px dashed black;
+    border-radius: 8px;
+}
+.create_account span {
+    margin: 0 12px;
+}
+.account_form {
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    background-color: rgba(0,0,0,0.6);
+    position: fixed;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.account_form.active {
+    display: flex;
+}
+.form_container {
+    height: 300px;
+    width: 350px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.account_type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.account_options {
+    display: flex;
+    gap: 6px;
+}
+.initial_deposit {
+    border: 1px solid black;
 }
