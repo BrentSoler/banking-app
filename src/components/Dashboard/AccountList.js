@@ -17,13 +17,14 @@ function AccountList() {
     }
     const [popup, setPopup] = useState(false);
     const showCreateAccountForm = () => setPopup(!popup);
-    const handleInput = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setState({...state, [name]: value})
-    }
-    const handleRadio = (e) => {
-        setState({...state, account: e.target.value})
+        setState(prevState => {
+            return {
+                ...prevState, [name]: value
+            }
+        })
     }
     const createAccount = () => {
         const list = accountlist;
@@ -31,13 +32,12 @@ function AccountList() {
             msg.set('')
             setPopup(!popup);
             list.push({account,amount});
-            setState({accountlist:list})
+            setState({...state, amount:'', accountlist:list})
 
         } else {
             msg.set("please input more than the initial amount");
         }
     }
-    console.log(state)
     const deleteAccount = (index) => {
         const list = accountlist;
         list.splice(index, 1);
@@ -53,7 +53,7 @@ function AccountList() {
                     <div key={index} className='accountlist'>
                         <span>{value.account} Account</span>
                         <span>{value.amount}</span>
-                        <button onClick={deleteAccount}><FaIcons.FaTrashAlt /></button>
+                        <button onClick={() => deleteAccount(index)}><FaIcons.FaTrashAlt /></button>
                     </div>
                 )
             ) : <span>No accounts created yet.</span>
@@ -67,16 +67,16 @@ function AccountList() {
                 <div className='account_type'>
                     <label>Type of Savings:</label>
                     <div className='account_options'>
-                        <input type="radio" name="account_type" id="checking" value='Checking' onChange={handleRadio} />
+                        <input type="radio" name="account" id="checking" value='Checking' onChange={handleChange} />
                         <span>Checking</span>
                     </div>
                     <div className='account_options'>
-                        <input type="radio"name="account_type" value = 'Savings' id="savings" onChange={handleRadio}/>
+                        <input type="radio"name="account" value = 'Savings' id="savings" onChange={handleChange}/>
                         <span>Savings</span>
                     </div>
                 </div>
                 <span>Please Enter initial deposit:</span>
-                <input className='initial_deposit' type="text" value={amount} onChange={handleInput} name="amount" placeholder='min of P10,000'/>
+                <input className='initial_deposit' type="number" value={amount} onChange={handleChange} name="amount" placeholder='min of P10,000'/>
                 {msg.get()}
                 <button onClick={createAccount} type="reset">Create!</button>
             </div>
