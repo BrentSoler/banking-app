@@ -20,9 +20,12 @@ function Navbar() {
 	return (
 		<>
 			<div className="navbar flex justify-between">
-				<span className="menu-bars">
-					<FaIcons.FaBars onClick={showSidebar} />
-				</span>
+				<div className="flex gap-4 items-center">
+					<span className="menu-bars">
+						<FaIcons.FaBars onClick={showSidebar} />
+					</span>
+					<h1 className="font-bold text-xl">BANKING APP</h1>
+				</div>
 				<button onClick={logout}>logout</button>
 			</div>
 			<nav className={sidebar ? "nav-menu active" : "nav-menu"}>

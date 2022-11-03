@@ -1,38 +1,40 @@
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import useStorage from "../../utils/localStorage";
+import { getTotal } from "../../utils/user";
 
 const UserTable = () => {
 	const [users, setUsers] = useState();
+	const [totalBalance, setTotalBalance] = useState();
 	const storage = useStorage();
 
 	const getUsers = useCallback(() => {
 		if (!users) {
 			setUsers(JSON.parse(storage.get("users")));
 		}
-	}, [storage, users]);
+		if (users) {
+			setTotalBalance(getTotal(users));
+		}
+	}, []);
 
-	const activate = useCallback(
-		(name) => {
-			const users = JSON.parse(storage.get("users"));
+	const activate = (name) => {
+		const users = JSON.parse(storage.get("users"));
 
-			const userActivate = users.map((user) => {
-				if (user.name === name) {
-					user.activated = user.activated === true ? false : true;
-				}
-				return user;
-			});
+		const userActivate = users.map((user) => {
+			if (user.name === name) {
+				user.activated = user.activated === true ? false : true;
+			}
+			return user;
+		});
 
-			storage.set("users", userActivate);
-			setUsers(null);
-			getUsers();
-		},
-		[storage]
-	);
+		storage.set("users", userActivate);
+		setUsers(null);
+		getUsers();
+	};
 
 	useEffect(() => {
 		getUsers();
-	}, [getUsers, activate]);
+	}, [getUsers]);
 
 	return (
 		<div className="overflow-x-auto">
@@ -46,22 +48,24 @@ const UserTable = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{users &&
-						users.map((user) => (
-							<tr key={user.name}>
-								<th>{user.role}</th>
-								<td>{user.name}</td>
-								<td>{user.balance}</td>
-								<td>
-									<input
-										type="checkbox"
-										checked={user.activated}
-										className="checkbox"
-										onClick={() => activate(user.name)}
-									/>
-								</td>
-							</tr>
-						))}
+					{users && totalBalance
+						? users.map((user, i) => (
+								<tr key={user.name}>
+									<th>{user.role}</th>
+									<td>{user.name}</td>
+									<td>{totalBalance[i].balance ? totalBalance[i].balance : totalBalance[i]}</td>
+									<td>
+										<input
+											type="checkbox"
+											checked={user.activated}
+											className="checkbox"
+											disabled={user === JSON.parse(storage.get("loggedIn")).name ? true : false}
+											onClick={() => activate(user.name)}
+										/>
+									</td>
+								</tr>
+						  ))
+						: null}
 				</tbody>
 			</table>
 		</div>

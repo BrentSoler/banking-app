@@ -2,7 +2,7 @@
 /* Nav-bar ONLY */
 
 .navbar {
-	background-color: #444;
+	background-color: #1e40af;
 	color: white;
 }
 .menu-bars {
@@ -13,7 +13,7 @@
 	color: #fff;
 }
 .nav-menu {
-	background-color: #444;
+	background-color: #1e40af;
 	width: 250px;
 	display: flex;
 	height: 100vh;
