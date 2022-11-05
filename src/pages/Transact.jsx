@@ -1,11 +1,13 @@
 import Navbar from "../components/Dashboard/Navbar";
+import TransactionForm from "../components/TrabsactionForm/TransactionForm";
 
 const Transact = () => {
 	return (
-	<>
-	<Navbar />
-    <span>Transact</span>
-	</>
+		<>
+			<Navbar />
+
+			<TransactionForm />
+		</>
 	);
 };
 

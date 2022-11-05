@@ -12,10 +12,10 @@ const UserTable = () => {
 		if (!users) {
 			setUsers(JSON.parse(storage.get("users")));
 		}
-		if (users) {
+		if (users && !totalBalance) {
 			setTotalBalance(getTotal(users));
 		}
-	}, []);
+	}, [storage, users, totalBalance]);
 
 	const activate = (name) => {
 		const users = JSON.parse(storage.get("users"));
@@ -29,7 +29,6 @@ const UserTable = () => {
 
 		storage.set("users", userActivate);
 		setUsers(null);
-		getUsers();
 	};
 
 	useEffect(() => {
@@ -59,7 +58,9 @@ const UserTable = () => {
 											type="checkbox"
 											checked={user.activated}
 											className="checkbox"
-											disabled={user === JSON.parse(storage.get("loggedIn")).name ? true : false}
+											disabled={
+												user.name === JSON.parse(storage.get("loggedIn")).name ? true : false
+											}
 											onClick={() => activate(user.name)}
 										/>
 									</td>
