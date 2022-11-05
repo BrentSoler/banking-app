@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./dashboard.css";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { SidebarContent } from "./SidebarContent";
 import { Link, useNavigate } from "react-router-dom";
 import useStorage from "../../utils/localStorage";
+import { useLoggedUser } from "../../utils/user";
 
 function Navbar() {
 	const [sidebar, setSidebar] = useState(false);
 	const showSidebar = () => setSidebar(!sidebar);
+	const user = useLoggedUser();
 	const navigate = useNavigate();
 	const storage = useStorage();
 
@@ -35,16 +37,21 @@ function Navbar() {
 							<AiIcons.AiOutlineClose />
 						</span>
 					</li>
-					{SidebarContent.map((data, index) => {
-						return (
-							<li key={index} className={data.className}>
-								<Link to={data.path}>
-									{data.icon}
-									<span>{data.name}</span>
-								</Link>
-							</li>
-						);
-					})}
+					{user &&
+						SidebarContent.map((data, index) => {
+							if (user.role === "admin" && data.name === "Pay Bills") {
+								return null;
+							}
+
+							return (
+								<li key={index} className={data.className}>
+									<Link to={data.path}>
+										{data.icon}
+										<span>{data.name}</span>
+									</Link>
+								</li>
+							);
+						})}
 				</ul>
 			</nav>
 		</>
