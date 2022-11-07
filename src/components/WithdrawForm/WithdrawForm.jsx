@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import useMsg from "../../utils/errorMsg";
 import handleChange from "../../utils/handleChange";
 import useStorage from "../../utils/localStorage";
 import { useGetUsers } from "../../utils/user";
 
-export default function TransactionForm() {
+export default function DepositForm() {
 	const [senderForm, setSenderForm] = useState({
 		name: "",
 		account: "",
 		amount: "",
-	});
-	const [reciverForm, setReciverForm] = useState({
-		name: "",
-		account: "",
 	});
 	const users = useGetUsers();
 	const storage = useStorage();
@@ -23,28 +18,14 @@ export default function TransactionForm() {
 		e.preventDefault();
 
 		if (!senderForm.name || !senderForm.account || !senderForm.amount) {
-			msg.set("Missing Feilds in Sender");
-			return;
-		}
-
-		if (!reciverForm.name || !reciverForm.account) {
-			msg.set("Missing Feilds in Reciver");
+			msg.set("Missing Feilds");
 			return;
 		}
 
 		const numbersOnlyRegex = /^[0-9]*$/;
 
 		if (!senderForm.amount.match(numbersOnlyRegex)) {
-			msg.set("Amount shoul only have numbers");
-			return;
-		}
-
-		const filterUser = users.filter((user) => user.name === senderForm.name);
-
-		const balance = filterUser[0].accounts.filter((account) => account.name === senderForm.account);
-
-		if (parseInt(balance[0].balance) < parseInt(senderForm.amount)) {
-			msg.set("Insufficent balance");
+			msg.set("Amount should only have numbers");
 			return;
 		}
 
@@ -53,15 +34,6 @@ export default function TransactionForm() {
 				user.accounts.map((account) => {
 					if (account.name === senderForm.account) {
 						account.balance = parseInt(account.balance) - parseInt(senderForm.amount);
-					}
-					return account;
-				});
-			}
-
-			if (user.name === reciverForm.name) {
-				user.accounts.map((account) => {
-					if (account.name === reciverForm.account) {
-						account.balance = parseInt(account.balance) + parseInt(senderForm.amount);
 					}
 					return account;
 				});
@@ -78,13 +50,7 @@ export default function TransactionForm() {
 			amount: "",
 		});
 
-		setReciverForm({
-			name: "",
-			account: "",
-			amount: "",
-		});
-
-		msg.set("Successfully Transferred to Account", "success");
+		msg.set("Successfully Withdrawn to Account", "success");
 	}
 
 	return (
@@ -94,7 +60,7 @@ export default function TransactionForm() {
                 SENDER FORM
                 */}
 				<div className="shadow-md p-8 border-2 flex flex-col gap-5 rounded-md w-[30rem]">
-					<h1 className="font-bold text-3xl mb-5">Sender</h1>
+					<h1 className="font-bold text-3xl mb-5">Withdraw</h1>
 
 					<div className="w-full">
 						<div className="flex flex-col w-full">
@@ -111,9 +77,6 @@ export default function TransactionForm() {
 								</option>
 								{users
 									? users.map((user) => {
-											if (user.name === reciverForm.name) {
-												return null;
-											}
 											return <option value={user.name}>{user.name}</option>;
 									  })
 									: null}
@@ -164,78 +127,10 @@ export default function TransactionForm() {
 							/>
 						</div>
 					</div>
-				</div>
-
-				<div className="flex flex-col items-center">
-					<BsArrowRight className="text-6xl" />
-					<button type="submit" className="btn">
+					{msg.get()}
+					<button type="submit" className="btn w-min self-end">
 						SEND
 					</button>
-					{msg.get()}
-				</div>
-
-				{/* 
-                    RECIVER FORM
-                */}
-				<div className="shadow-md p-8 border-2 flex flex-col gap-5 rounded-md w-[30rem]">
-					<h1 className="font-bold text-3xl mb-5">Reciver</h1>
-
-					<div className="w-full">
-						<div className="flex flex-col w-full">
-							<label htmlFor="name">Name:</label>
-							<select
-								className="select w-full"
-								id="name"
-								name="name"
-								onChange={(e) => handleChange(e, setReciverForm)}
-								value={reciverForm.name}
-							>
-								<option value="" selected disabled>
-									Select a User
-								</option>
-								{users
-									? users.map((user) => {
-											if (user.name === senderForm.name) {
-												return null;
-											}
-											return <option value={user.name}>{user.name}</option>;
-									  })
-									: null}
-							</select>
-						</div>
-						<div className="flex flex-col w-full">
-							<label htmlFor="account">Account:</label>
-							<select
-								className="select w-full"
-								id="account"
-								name="account"
-								onChange={(e) => handleChange(e, setReciverForm)}
-								value={reciverForm.account}
-							>
-								{reciverForm.name && (
-									<option value="" selected disabled>
-										Select an Account
-									</option>
-								)}
-								{!reciverForm.name && (
-									<option value="" selected disabled>
-										Select a User first
-									</option>
-								)}
-								{users && reciverForm.name
-									? users.map((user) => {
-											if (user.name !== reciverForm.name) {
-												return null;
-											}
-
-											return user.accounts.map((account) => (
-												<option value={account.name}>{account.name}</option>
-											));
-									  })
-									: null}
-							</select>
-						</div>
-					</div>
 				</div>
 			</div>
 		</form>

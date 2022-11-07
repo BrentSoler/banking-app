@@ -40,7 +40,7 @@ const RegisterForm = () => {
 			password: loginData.password,
 			role: "user",
 			activated: false,
-			balance: "0",
+			accounts: [{ name: "default", balance: 0 }],
 		});
 
 		navigate("/");
